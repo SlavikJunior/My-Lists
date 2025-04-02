@@ -2,7 +2,7 @@ package src;
 
 import java.util.*;
 
-public class MyArrayListTest<E> implements List<E> {
+public class MyArrayListTest<E> implements List<E>{
 
     private int capacity = 50;
     protected int size = 0;
@@ -69,7 +69,13 @@ public class MyArrayListTest<E> implements List<E> {
 
     @Override
     public void clear() {
-
+        for (int i = 0; i < size; i++) {
+            storage[i] = null;
+        }
+        size = 0;
+        for(MyArrayListTest<E> sub : subLists) {
+            sub.clear();
+        }
     }
 
     @Override
@@ -95,6 +101,10 @@ public class MyArrayListTest<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
+        for(Object temp : storage) {
+            if (temp.equals(0))
+                return true;
+        }
         return false;
     }
 
@@ -105,12 +115,18 @@ public class MyArrayListTest<E> implements List<E> {
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        return Arrays.copyOf(storage, size);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T[] toArray(T[] a) {
-        return null;
+        if (a.length < size)
+            return (T[]) Arrays.copyOf(storage, size, a.getClass());
+        System.arraycopy(storage, 0, a, 0, size);
+        if (a.length > size)
+            a[size] = null;
+        return a;
     }
 
     @Override
@@ -138,7 +154,16 @@ public class MyArrayListTest<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        if (size < c.size()) {
+            return false;
+        }
+        if (!(c instanceof List<?> otherList))
+            return false;
+        for (int i = 0; i < c.size(); i++) {
+            if (!this.contains(otherList.get(i)))
+                return false;
+        }
+        return true;
     }
 
     @Override
@@ -161,19 +186,38 @@ public class MyArrayListTest<E> implements List<E> {
         return false;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public E remove(int index) {
-        return null;
+        E oldValue = (E) storage[index];
+        if (!isValidIndex(index))
+            return null;
+        for (int i = index; i < size - 1; i++) {
+            storage[i] = storage[i + 1];
+        }
+        size--;
+        return oldValue;
     }
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        int id = 0;
+        for (Object temp : storage) {
+            if (temp.equals(0)) {
+                return id;
+            }
+            id++;
+        }
+        return - 1;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        for (int i = size - 1; i >= 0; i--) {
+            if (storage[i].equals(o))
+                return i;
+        }
+        return - 1;
     }
 
     @Override

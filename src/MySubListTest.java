@@ -7,7 +7,7 @@ class MySubListTest<E> extends MyArrayListTest<E>{
     private int size;
     private MyArrayListTest<E> parent;
 
-    MySubListTest( MyArrayListTest<E> parent, int fromIndex, int toIndex) {
+    MySubListTest(MyArrayListTest<E> parent, int fromIndex, int toIndex) {
         offset = fromIndex;
         this.storage = parent.storage;
         this.size = toIndex - fromIndex;
@@ -20,6 +20,14 @@ class MySubListTest<E> extends MyArrayListTest<E>{
             return parent.get(offset + index);
         }
         return null;
+    }
+
+    @Override
+    public void clear() {
+        for (int i = offset; i < size + offset; i++) {
+            storage[i] = null;
+        }
+        size = 0;
     }
 
     @Override
