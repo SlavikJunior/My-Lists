@@ -2,12 +2,12 @@ package src;
 
 import java.util.*;
 
-public class MyArrayListTest<E> implements List<E>{
+public class MyArrayList<E> extends MyAbstractCollection<E> implements List<E>{
 
     private int capacity = 50;
     protected int size = 0;
     protected Object[] storage = new Object[capacity];
-    private List<MyArrayListTest<E>> subLists = new ArrayList<>();
+    private List<MyArrayList<E>> subLists = new ArrayList<>();
 
     @Override
     public int size() {
@@ -16,7 +16,7 @@ public class MyArrayListTest<E> implements List<E>{
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-        MyArrayListTest<E> sub = new MySubListTest<>(this, fromIndex, toIndex);
+        MyArrayList<E> sub = new MySubList<>(this, fromIndex, toIndex);
         subLists.add(sub);
         return sub;
     }
@@ -73,7 +73,7 @@ public class MyArrayListTest<E> implements List<E>{
             storage[i] = null;
         }
         size = 0;
-        for(MyArrayListTest<E> sub : subLists) {
+        for(MyArrayList<E> sub : subLists) {
             sub.clear();
         }
     }
@@ -102,7 +102,7 @@ public class MyArrayListTest<E> implements List<E>{
     @Override
     public boolean contains(Object o) {
         for(Object temp : storage) {
-            if (temp.equals(0))
+            if (temp.equals(o))
                 return true;
         }
         return false;
@@ -110,7 +110,7 @@ public class MyArrayListTest<E> implements List<E>{
 
     @Override
     public Iterator<E> iterator() {
-        return new MyArrayListTestIterator<>(this);
+        return new MyArrayListIterator<>(this);
     }
 
     @Override
@@ -164,26 +164,6 @@ public class MyArrayListTest<E> implements List<E>{
                 return false;
         }
         return true;
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends E> c) {
-        return false;
-    }
-
-    @Override
-    public boolean addAll(int index, Collection<? extends E> c) {
-        return false;
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        return false;
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        return false;
     }
 
     @SuppressWarnings("unchecked")

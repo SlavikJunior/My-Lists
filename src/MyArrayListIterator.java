@@ -2,12 +2,12 @@ package src;
 
 import java.util.*;
 
-public class MyArrayListTestIterator<E> implements Iterator<E> {
+public class MyArrayListIterator<E> implements Iterator<E> {
 
     private int index;
-    private MyArrayListTest<? extends E> mal;
+    private MyArrayList<? extends E> mal;
 
-    public MyArrayListTestIterator(MyArrayListTest<? extends E> mal) {
+    public MyArrayListIterator(MyArrayList<? extends E> mal) {
         this.mal = mal;
         this.index = 0;
     }
