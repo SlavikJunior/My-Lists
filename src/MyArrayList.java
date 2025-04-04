@@ -36,10 +36,6 @@ public class MyArrayList<E> extends MyAbstractCollection<E> implements List<E>{
         return null;
     }
 
-    protected boolean isValidIndex(int index) {
-        return index >= 0 && index < size;
-    }
-
     @Override
     public E set(int index, E element) {
         if (isValidIndex(index)) {
@@ -78,15 +74,6 @@ public class MyArrayList<E> extends MyAbstractCollection<E> implements List<E>{
         }
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for(E x : this) {
-            sb.append(x + " ");
-        }
-        return sb.toString();
-    }
-
     private void ensureCapacity() {
         if (size >= capacity * 2/3) {
             capacity = capacity * 3/2;
@@ -95,27 +82,8 @@ public class MyArrayList<E> extends MyAbstractCollection<E> implements List<E>{
     }
 
     @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    @Override
-    public boolean contains(Object o) {
-        for(Object temp : storage) {
-            if (temp.equals(o))
-                return true;
-        }
-        return false;
-    }
-
-    @Override
     public Iterator<E> iterator() {
         return new MyArrayListIterator<>(this);
-    }
-
-    @Override
-    public Object[] toArray() {
-        return Arrays.copyOf(storage, size);
     }
 
     @SuppressWarnings("unchecked")
@@ -152,20 +120,6 @@ public class MyArrayList<E> extends MyAbstractCollection<E> implements List<E>{
         return false;
     }
 
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        if (size < c.size()) {
-            return false;
-        }
-        if (!(c instanceof List<?> otherList))
-            return false;
-        for (int i = 0; i < c.size(); i++) {
-            if (!this.contains(otherList.get(i)))
-                return false;
-        }
-        return true;
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public E remove(int index) {
@@ -177,36 +131,5 @@ public class MyArrayList<E> extends MyAbstractCollection<E> implements List<E>{
         }
         size--;
         return oldValue;
-    }
-
-    @Override
-    public int indexOf(Object o) {
-        int id = 0;
-        for (Object temp : storage) {
-            if (temp.equals(0)) {
-                return id;
-            }
-            id++;
-        }
-        return - 1;
-    }
-
-    @Override
-    public int lastIndexOf(Object o) {
-        for (int i = size - 1; i >= 0; i--) {
-            if (storage[i].equals(o))
-                return i;
-        }
-        return - 1;
-    }
-
-    @Override
-    public ListIterator<E> listIterator() {
-        return null;
-    }
-
-    @Override
-    public ListIterator<E> listIterator(int index) {
-        return null;
     }
 }
