@@ -1,13 +1,13 @@
 package src;
 
-class MySubList<E> extends MyArrayList<E> {
+class MyArraySubList<E> extends MyArrayList<E> {
 
     private int offset;
     private Object[] storage;
     private int size;
     private MyArrayList<E> parent;
 
-    MySubList(MyArrayList<E> parent, int fromIndex, int toIndex) {
+    MyArraySubList(MyArrayList<E> parent, int fromIndex, int toIndex) {
         offset = fromIndex;
         this.storage = parent.storage;
         this.size = toIndex - fromIndex;

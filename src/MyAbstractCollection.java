@@ -1,5 +1,6 @@
 package src;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -53,6 +54,10 @@ public abstract class MyAbstractCollection<E> {
 
     public abstract void add(int index, E e);
 
+    public abstract boolean remove(Object o);
+
+    public abstract E remove(int index);
+
     public boolean addAll(Collection<? extends E> c) {
         if (c == null)
             return true;
@@ -92,13 +97,36 @@ public abstract class MyAbstractCollection<E> {
         return curIndex;
     }
 
-
     public boolean removeAll(Collection<?> c) {
-        return false;
+        if (c == null)
+            return true;
+
+        boolean isModified = false;
+        for (Object o : c) {
+            if (contains(o)) {
+                remove(o);
+                isModified = true;
+            }
+        }
+
+        return isModified;
     }
 
     public boolean retainAll(Collection<?> c) {
-        return false;
+        if (c == null)
+            return false;
+
+        boolean isModified = false;
+        Iterator<E> it = iterator();
+        while(it.hasNext()) {
+            E curValue = it.next();
+            if (!c.contains(curValue)) {
+                remove(curValue);
+                isModified = true;
+            }
+        }
+
+        return isModified;
     }
 
     @Override
@@ -123,6 +151,25 @@ public abstract class MyAbstractCollection<E> {
             i++;
         }
         return res;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T[] toArray(T[] a) {
+        if (a == null) {
+            return null;
+        }
+
+        if (a.length < size()) {
+            return (T[]) Arrays.copyOf(toArray(), size(), a.getClass());
+        }
+
+        System.arraycopy(toArray(), 0, a, 0, size());
+
+        if (a.length > size()) {
+            a[size()] = null;
+        }
+
+        return a;
     }
 
     protected boolean isValidIndex(int index) {

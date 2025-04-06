@@ -19,6 +19,13 @@ public class MyLinkedListIterator<E> implements Iterator<E> {
     }
 
     @Override
+    public void remove(){
+        if (hasNext()) {
+            boolean res = self.remove(next());
+        }
+    }
+
+    @Override
     public E next() {
         E value = null;
         if (hasNext()) {

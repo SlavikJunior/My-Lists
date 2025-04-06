@@ -22,7 +22,9 @@ public class MyArrayListIterator<E> implements Iterator<E> {
     @Override
     public E next() {
         if (hasNext()) {
-            return mal.get(index++);
+            E value = mal.get(index);
+            index++;
+            return value;
         }
         return null;
     }

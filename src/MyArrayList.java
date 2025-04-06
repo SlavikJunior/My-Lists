@@ -16,7 +16,7 @@ public class MyArrayList<E> extends MyAbstractCollection<E> implements List<E>{
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-        MyArrayList<E> sub = new MySubList<>(this, fromIndex, toIndex);
+        MyArrayList<E> sub = new MyArraySubList<>(this, fromIndex, toIndex);
         subLists.add(sub);
         return sub;
     }
